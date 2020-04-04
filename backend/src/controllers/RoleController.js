@@ -9,10 +9,6 @@ module.exports = {
       .select("role")
       .first();
 
-    // if (!requester) {
-    //   return response.status(412).json({ error: "This user doesn't exist." });
-    // }
-
     if (!requester || requester.role !== "HouseAdmin") {
       return response.status(401).json({ error: "Operation not permited." });
     }
