@@ -9,20 +9,26 @@ module.exports = {
       .select("role")
       .first();
 
-    if (!requester) {
-      return response.status(412).json({ error: "This user doesn't exist." });
-    }
+    // if (!requester) {
+    //   return response.status(412).json({ error: "This user doesn't exist." });
+    // }
 
-    if (requester.role !== "HouseAdmin") {
+    if (!requester || requester.role !== "HouseAdmin") {
       return response.status(401).json({ error: "Operation not permited." });
     }
 
     const { title } = request.body;
 
     await connection("roles").insert({
-      title
+      title,
     });
 
     return response.status(201).json({ title });
-  }
+  },
+
+  async index(request, response) {
+    const roles = await connection("roles").select("*");
+
+    return response.json(roles);
+  },
 };

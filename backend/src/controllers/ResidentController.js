@@ -10,11 +10,11 @@ module.exports = {
       .select("role")
       .first();
 
-    if (!requester) {
-      return response.status(412).json({ error: "This user doesn't exist." });
-    }
+    // if (!requester) {
+    //   return response.status(412).json({ error: "This user doesn't exist." });
+    // }
 
-    if (requester.role !== "HouseAdmin") {
+    if (!requester || requester.role !== "HouseAdmin") {
       return response.status(401).json({ error: "Operation not permited." });
     }
 
@@ -27,9 +27,15 @@ module.exports = {
       email,
       name,
       totalPoints: 0,
-      role
+      role,
     });
 
     return response.status(201).json({ email });
-  }
+  },
+
+  async index(request, response) {
+    const residents = await connection("residents").select("*");
+
+    return response.json(residents);
+  },
 };
