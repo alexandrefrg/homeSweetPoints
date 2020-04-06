@@ -61,7 +61,20 @@ routes.post(
 routes.get("/roles", RoleController.index);
 
 //Task routes
-routes.post("/tasks", TaskController.create);
+routes.post(
+  "/tasks",
+  celebrate({
+    [Segments.HEADERS]: Joi.object({
+      authorization: Joi.string().required(),
+    }).unknown(),
+    [Segments.BODY]: Joi.object().keys({
+      name: Joi.string().required(),
+      description: Joi.string().required(),
+      points: Joi.number().required().min(1).max(100),
+    }),
+  }),
+  TaskController.create
+);
 routes.get("/tasks", TaskController.index);
 
 //Transaction routes
