@@ -14,7 +14,7 @@ module.exports = {
       return response.status(401).json({ error: "Operation not permited." });
     }
 
-    const { email, name, isAdmin } = request.body;
+    const { email, name, isAdmin, house_uniqueToken } = request.body;
     const uniqueToken = generateUniqueToken();
     const role = isAdmin ? "HouseAdmin" : "HouseResident";
 
@@ -24,6 +24,7 @@ module.exports = {
       name,
       totalPoints: 0,
       role,
+      house_uniqueToken,
     });
 
     return response.status(201).json({ email });

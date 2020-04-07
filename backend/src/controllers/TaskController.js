@@ -21,6 +21,7 @@ module.exports = {
       name,
       description,
       points,
+      house_uniqueToken,
     });
 
     return response.status(201).json({ name });
